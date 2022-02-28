@@ -2,6 +2,7 @@ from corelib import *
 
 
 def connect_to_server_tcp_stream(address, port):
+    print("connect_to_server_tcp_stream")
     my_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     my_socket.connect((address, port))
 
@@ -15,15 +16,21 @@ def connect_to_server_tcp_stream(address, port):
     bar = tqdm(range(file_size), f"Sending data!")
 
     with open(test_file, "rb") as file:
-        for i in range(file_size // size):
-            buffer = file.read(size)
-            my_socket.send(buffer)
-            bar.update(size)
+        for i in range(file_size // message_default_size):
+            buffer = file.read(message_default_size)
+            bytes_sent = my_socket.send(buffer)
 
-        buffer = file.read(file_size % size)
+            while bytes_sent < message_default_size:
+                bytes_sent += my_socket.send(buffer[bytes_sent:])
 
-        my_socket.send(buffer)
-        bar.update(file_size % size)
+
+            bar.update(message_default_size)
+
+        buffer = file.read(file_size % message_default_size)
+        total = my_socket.send(buffer)
+
+
+        bar.update(file_size % message_default_size)
 
     bar.clear()
     bar.close()

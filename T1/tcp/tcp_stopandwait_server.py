@@ -2,6 +2,7 @@ from corelib import *
 
 
 def create_tcp_server_stopandwait(address: str, port: int):
+    print("create_tcp_server_stopandwait")
     my_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     my_socket.bind((address, port))
     print(f"Server running at {address}:{port}")
@@ -19,8 +20,8 @@ def create_tcp_server_stopandwait(address: str, port: int):
 
     files = bytearray()
     bar = tqdm(range(file_size), f"Receiving data!")
-    for _ in range(file_size // size):
-        data = connection.recv(size)
+    for _ in range(file_size // message_default_size):
+        data = connection.recv(message_default_size)
         if not data:
             print("Error happened!")
             break
@@ -32,7 +33,7 @@ def create_tcp_server_stopandwait(address: str, port: int):
         bar.update(len(data))
 
     if len(files) != file_size:
-        data = connection.recv(file_size % size)
+        data = connection.recv(file_size % message_default_size)
         files.extend(data)
         bar.update(len(data))
 

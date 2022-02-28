@@ -2,10 +2,10 @@ import time
 
 from corelib import *
 
-udp_resend = 3
+udp_resend = 1
 
-def connect_to_server_udp_stream(address: str, port: int):
-    print("connect_to_server_udp_stream")
+def connect_to_server_udp_stopandwait(address: str, port: int):
+    print("connect_to_server_udp_stopandwait")
     my_socket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 
     file_size = os.path.getsize(f"{test_file}")
@@ -26,6 +26,8 @@ def connect_to_server_udp_stream(address: str, port: int):
                 x.extend(buffer)
                 my_socket.sendto(x, (address, port))
                 bar.update(message_default_size)
+
+                my_socket.recv(len(success_msg))
 
             if file_size % message_default_size != 0:
                 buffer = file.read(file_size % message_default_size)

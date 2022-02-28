@@ -1,9 +1,8 @@
 from corelib import *
 
 
-def create_udp_server_stream(address: str, port: int):
-    print("create_udp_server_stream"
-          "")
+def create_udp_server_stopandwait(address: str, port: int):
+    print("create_udp_server_stopandwait")
     my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     my_socket.bind((address, port))
     print(f"Server running at {address}:{port}")
@@ -24,7 +23,7 @@ def create_udp_server_stream(address: str, port: int):
     recived_data = 0
     try:
         while recived_data < file_size:
-            data, __ = my_socket.recvfrom(message_default_size + 4)
+            data, address = my_socket.recvfrom(message_default_size + 4)
             fragment_number = int.from_bytes(data[:4],"big")
             data = data[4:]
 
@@ -36,6 +35,8 @@ def create_udp_server_stream(address: str, port: int):
                 files_dict[fragment_number] = data
                 bar.update(len(data))
                 recived_data += len(data)
+
+            my_socket.sendto(success_msg ,address)
 
 
     except Exception as e:

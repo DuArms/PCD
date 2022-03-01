@@ -20,15 +20,33 @@ server_option = {
 
 
 def th(my_conn):
+    out = ""
     while True:
         func = int.from_bytes(my_conn.recv(4), "big")
+
+        if func == 6:
+            out += test_file + ":\n"
+            continue
 
         if func not in server_option.keys():
             break
 
-        server_option[func](server_address, server_port)
+        rez = server_option[func](server_address, server_port)
+
+        for x in rez:
+           out += str(x) + " "
+        out += "\n"
+
+        print()
+        print(f" mode:\t{rez[0]} ")
+        print(f" msg count:\t{rez[1]} ")
+        print(f" byte count:\t{rez[2]} ")
+        print(f" time:\t{rez[3]} ")
+        print()
 
     conn.close()
+
+    print(out)
     pass
 
 

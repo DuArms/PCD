@@ -2,7 +2,7 @@ from hashlib import sha256
 import  socket, os
 
 from tqdm import  tqdm
-
+import time
 
 
 tcp_stop = 1
@@ -17,7 +17,8 @@ server_port = 4200
 main_server_port = 4201
 
 message_default_size = 1024
-test_file = "poza.jpg"
+global test_file
+test_file = "gb.txt"
 
 success_msg = b"SUCCESS"
 stop_msg = b"X" * message_default_size

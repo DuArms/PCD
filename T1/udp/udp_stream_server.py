@@ -2,8 +2,11 @@ from corelib import *
 
 
 def create_udp_server_stream(address: str, port: int):
-    print("create_udp_server_stream"
-          "")
+    print("create_udp_server_stream")
+
+    count_msg = 0
+    count_bytes = 0
+
     my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     my_socket.bind((address, port))
     print(f"Server running at {address}:{port}")
@@ -22,25 +25,27 @@ def create_udp_server_stream(address: str, port: int):
     files_dict = dict()
     my_socket.settimeout(10)
     recived_data = 0
-    try:
-        while recived_data < file_size:
+
+    transmission_start_tine = time.time_ns()
+
+    while recived_data < file_size:
+        try:
             data, __ = my_socket.recvfrom(message_default_size + 4)
-            fragment_number = int.from_bytes(data[:4],"big")
-            data = data[4:]
+        except:
+            continue
+        fragment_number = int.from_bytes(data[:4],"big")
+        data = data[4:]
 
-            if not data:
-                print("Error happened!")
-                break
+        count_msg += 1
+        count_bytes += len(data)
 
-            if fragment_number not in files_dict.keys():
-                files_dict[fragment_number] = data
-                bar.update(len(data))
-                recived_data += len(data)
+        if fragment_number not in files_dict.keys():
+            files_dict[fragment_number] = data
+            bar.update(len(data))
+            recived_data += len(data)
 
 
-    except Exception as e:
-        print(e)
-        pass
+
 
     files = bytearray()
     for i in range(file_size // message_default_size + 1):
@@ -49,8 +54,12 @@ def create_udp_server_stream(address: str, port: int):
         except:
             pass
 
+    transmission_end_time = time.time_ns()
+
     with open(f"server_{file_name}", "wb") as file:
         file.write(files)
+
+    return ["udp_stream", count_msg, count_bytes, transmission_end_time - transmission_start_tine]
 
 
 

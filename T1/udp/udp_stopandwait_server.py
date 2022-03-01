@@ -1,7 +1,12 @@
+import time
+
 from corelib import *
 
 
 def create_udp_server_stopandwait(address: str, port: int):
+    count_msg = 0
+    count_bytes = 0
+
     print("create_udp_server_stopandwait")
     my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     my_socket.bind((address, port))
@@ -21,15 +26,16 @@ def create_udp_server_stopandwait(address: str, port: int):
     files_dict = dict()
     my_socket.settimeout(10)
     recived_data = 0
+
+    transmission_start_tine = time.time_ns()
     try:
         while recived_data < file_size:
             data, address = my_socket.recvfrom(message_default_size + 4)
             fragment_number = int.from_bytes(data[:4],"big")
             data = data[4:]
 
-            if not data:
-                print("Error happened!")
-                break
+            count_msg += 1
+            count_bytes += len(data)
 
             if fragment_number not in files_dict.keys():
                 files_dict[fragment_number] = data
@@ -50,8 +56,12 @@ def create_udp_server_stopandwait(address: str, port: int):
         except:
             pass
 
+    transmission_end_time = time.time_ns()
+
     with open(f"server_{file_name}", "wb") as file:
         file.write(files)
+
+    return ["udp__stopandwait", count_msg, count_bytes, transmission_end_time - transmission_start_tine]
 
 
 

@@ -59,7 +59,7 @@ def create_tcp_server_stopandwait(address: str, port: int):
     bar.close()
 
     print("Session closed!")
-    return ["tcp_stopandwait", count_msg, count_bytes, transmission_end_time - transmission_start_tine]
+    return ["tcp_stopandwait", count_msg, count_bytes, transmission_end_time - transmission_start_tine, file_name]
 
 
 if __name__ == "__main__":

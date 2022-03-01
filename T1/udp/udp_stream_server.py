@@ -59,7 +59,7 @@ def create_udp_server_stream(address: str, port: int):
     with open(f"server_{file_name}", "wb") as file:
         file.write(files)
 
-    return ["udp_stream", count_msg, count_bytes, transmission_end_time - transmission_start_tine]
+    return ["udp_stream", count_msg, count_bytes, transmission_end_time - transmission_start_tine, file_name]
 
 
 

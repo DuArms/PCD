@@ -1,7 +1,7 @@
 from corelib import *
 
 
-def check_integrity():
+def check_integrity(test_file):
     client_data = open(test_file, "rb").read()
     server_data = open("server_"+test_file, "rb").read()
 
@@ -14,7 +14,7 @@ def check_integrity():
     print(f"Client data size: {len(client_data)}")
     print(f"Server data size: {len(server_data)}")
 
-    if len(client_data) == len(server_data):
+    if len(client_data) == len(server_data) and cd_hash != sd_hash:
         for i, (cd, sd) in enumerate(zip(client_data, server_data)):
             if cd != sd:
                 print(f"{i}: {cd} != {sd}")

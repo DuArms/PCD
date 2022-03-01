@@ -1,7 +1,7 @@
 from corelib import *
 
 
-def connect_to_server_tcp_stream(address, port):
+def connect_to_server_tcp_stream(address, port, test_file):
     print("connect_to_server_tcp_stream")
     count_msg = 0
     count_bytes = 0

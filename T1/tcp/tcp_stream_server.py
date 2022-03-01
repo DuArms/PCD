@@ -64,7 +64,7 @@ def create_tcp_server_stream(address: str, port: int):
     bar.close()
 
     print("Session closed!")
-    return ["tcp_stream", count_msg, count_bytes, transmission_end_time - transmission_start_tine]
+    return ["tcp_stream", count_msg, count_bytes, transmission_end_time - transmission_start_tine, file_name]
 
 if __name__ == "__main__":
     create_tcp_server_stream("127.0.0.1", 4200)

@@ -4,7 +4,7 @@ from corelib import *
 
 udp_resend = 3
 
-def connect_to_server_udp_stream(address: str, port: int):
+def connect_to_server_udp_stream(address: str, port: int, test_file):
     print("connect_to_server_udp_stream")
     my_socket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 

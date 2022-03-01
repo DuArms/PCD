@@ -4,7 +4,7 @@ from corelib import *
 
 udp_resend = 1
 
-def connect_to_server_udp_stopandwait(address: str, port: int):
+def connect_to_server_udp_stopandwait(address: str, port: int,test_file):
     print("connect_to_server_udp_stopandwait")
     my_socket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 

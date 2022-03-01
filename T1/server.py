@@ -21,19 +21,21 @@ server_option = {
 
 def th(my_conn):
     out = ""
+
+    last_file_name = ""
     while True:
         func = int.from_bytes(my_conn.recv(4), "big")
-
-        if func == 6:
-            out += test_file + ":\n"
-            continue
 
         if func not in server_option.keys():
             break
 
         rez = server_option[func](server_address, server_port)
 
-        for x in rez:
+        if rez[-1] != last_file_name:
+            last_file_name = rez[-1]
+            out += last_file_name + ":\n"
+
+        for x in rez[:-1]:
            out += str(x) + " "
         out += "\n"
 

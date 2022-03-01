@@ -2,8 +2,7 @@ import time
 
 from corelib import *
 
-def connect_to_server_tcp_stopandwait(address, port):
-    global test_file
+def connect_to_server_tcp_stopandwait(address, port,test_file):
     print("connect_to_server_tcp_stopandwait")
     count_msg = 0
     count_bytes = 0

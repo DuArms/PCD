@@ -18,7 +18,6 @@ main_server_port = 4201
 
 message_default_size = 1024
 global test_file
-test_file = "gb.txt"
 
 success_msg = b"SUCCESS"
 stop_msg = b"X" * message_default_size
